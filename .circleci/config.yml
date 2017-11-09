@@ -25,6 +25,9 @@ jobs:
       - run:
           name: test
           command: ./run-test.sh
+      - run:
+          name: deploy
+          command: ./deploy.sh
       # - run:
       #     name: code-coverage
       #     command: './node_modules/.bin/nyc report --reporter=text-lcov'
