@@ -19,9 +19,12 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+      # - run:
+      #     name: build-app-container
+      #     command: ./build-app.sh
       - run:
           name: test
-          command: npm test
+          command: ./run.test.sh
       # - run:
       #     name: code-coverage
       #     command: './node_modules/.bin/nyc report --reporter=text-lcov'
