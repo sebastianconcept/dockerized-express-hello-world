@@ -36,18 +36,18 @@ services:
   #   environment:
   #     - NODE_ENV=TESTING
 
-  # application:
-  #   image: application
-  #   build:
-  #     context: .
-  #     dockerfile: ./Dockerfile.test
-  #     args:
-  #       - NODE_ENV=TESTING
-  #   ports:
-  #     - "9000:9000"
-  #   depends_on:
-  #     - db
-  #     - cache
-  #   command: /opt/app/tests.sh
-  #   environment:
-  #     - NODE_ENV=TESTING
+  application:
+    image: application
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test
+      args:
+        - NODE_ENV=TESTING
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+      - cache
+    command: /opt/app/tests.sh
+    environment:
+      - NODE_ENV=TESTING
