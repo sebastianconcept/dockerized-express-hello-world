@@ -1,41 +1,54 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/mern-starter
+    working_directory: /app
     docker:
-      - image: circleci/node:4.8.2
-      - image: mongo:3.4.4
+      - image: docker:17.05.0-ce-git
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
+          name: Install dependencies
+          command: |
+            apk add --no-cache \
+              py-pip=9.0.0-r1
+            pip install \
+              docker-compose==1.12.0
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: install-npm-wee
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          keys:
+            - v1-{{ .Branch }}
           paths:
-            - ./node_modules
-      # - run:
-      #     name: build-app-container
-      #     command: ./build-app.sh
+            - /caches/app.tar
       - run:
-          name: test
-          command: ./run-test.sh
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
       - run:
-          name: deploy
-          command: ./deploy.sh
-      # - run:
-      #     name: code-coverage
-      #     command: './node_modules/.bin/nyc report --reporter=text-lcov'
-      # - store_artifacts:
-      #     path: test-results.xml
-      #     prefix: tests
-      # - store_artifacts:
-      #     path: coverage
-      #     prefix: coverage
-      # - store_test_results:
-      #     path: test-results.xml
+          name: Build application Docker image
+          command: |
+            # docker build --cache-from=app -t app .
+            docker-compose -f ./docker-compose.test.yml build
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/app.tar app
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Run tests
+          command: |
+            docker-compose -f ./docker-compose.test.yml up
+      - deploy:
+          name: Push application Docker image
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              echo "Fake deploy to the cloud..."
+              # login="$(aws ecr get-login)"
+              # ${login}
+              # docker tag app "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+              # docker push "${ECR_ENDPOINT}/app:${CIRCLE_SHA1}"
+            fi
