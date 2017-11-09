@@ -24,7 +24,7 @@ jobs:
       #     command: ./build-app.sh
       - run:
           name: test
-          command: ./run.test.sh
+          command: ./run-test.sh
       # - run:
       #     name: code-coverage
       #     command: './node_modules/.bin/nyc report --reporter=text-lcov'
