@@ -7,3 +7,24 @@ jobs:
        - checkout
        - run: echo "hello world"
 
+  test:
+    docker:
+      - image: circleci/node:4.8.2
+      - image: mongo:3.4.4
+    steps:
+      - checkout
+      - run:
+          name: Test
+          command: npm test
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
