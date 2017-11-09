@@ -34,6 +34,6 @@ services:
     depends_on:
       - db
       - cache
-    command: /srv/run-tests.sh
+    command: run-test.sh
     environment:
       - NODE_ENV=TESTING
