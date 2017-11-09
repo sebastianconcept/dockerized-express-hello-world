@@ -26,15 +26,15 @@ services:
     environment:
       - NODE_ENV=TESTING
 
-  # db:
-  #   image: app-db
-  #   build:
-  #     context: .
-  #     dockerfile: ./services/testing/db/Dockerfile
-  #   ports:
-  #     - "27017:27017"
-  #   environment:
-  #     - NODE_ENV=TESTING
+  db:
+    image: app-db
+    build:
+      context: .
+      dockerfile: ./services/testing/db/Dockerfile
+    ports:
+      - "27017:27017"
+    environment:
+      - NODE_ENV=TESTING
 
   application:
     image: application
