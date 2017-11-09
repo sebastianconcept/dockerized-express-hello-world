@@ -2,20 +2,6 @@ version: '3'
 
 services:
 
-  # http:
-  #   image: app-http
-  #   build:
-  #     context: .
-  #     dockerfile: ./services/testing/http/Dockerfile
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./build/client:/wwwroot
-  #   environment:
-  #     - NODE_ENV=TESTING
-  #   depends_on:
-  #     - application
-
   cache:
     image: app-redis
     build:
@@ -40,14 +26,14 @@ services:
     image: application
     build:
       context: .
-      dockerfile: ./Dockerfile.test
+      dockerfile: ./Dockerfile
       args:
         - NODE_ENV=TESTING
     ports:
-      - "9000:9000"
+      - "4000:4000"
     depends_on:
       - db
       - cache
-    command: /opt/app/tests.sh
+    command: ./run-tests.sh
     environment:
       - NODE_ENV=TESTING
