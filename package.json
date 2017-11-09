@@ -1,0 +1,24 @@
+{
+  "name": "dockerized-express-hello-world",
+  "version": "1.0.0",
+  "description": "An express hello-world example running in a docker container",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebastianconcept/dockerized-express-hello-world.git"
+  },
+  "author": "sebastianconcept",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebastianconcept/dockerized-express-hello-world/issues"
+  },
+  "homepage": "https://github.com/sebastianconcept/dockerized-express-hello-world#readme"
+}
