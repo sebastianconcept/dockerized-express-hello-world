@@ -8,7 +8,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo tested!",
+    "test": "echo fake test!",
     "start": "node server.js"
   },
   "repository": {
