@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  cache:
+    image: app-redis
+    build:
+      context: .
+      dockerfile: ./services/testing/cache/Dockerfile
+    ports:
+      - "6379:6379"
+    environment:
+      - NODE_ENV=TESTING
+
+  db:
+    image: app-db
+    build:
+      context: .
+      dockerfile: ./services/testing/db/Dockerfile
+    ports:
+      - "27017:27017"
+    environment:
+      - NODE_ENV=TESTING
+
+  application:
+    image: application
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - NODE_ENV=TESTING
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+      - cache
+    command: ./run-test.sh
+    environment:
+      - NODE_ENV=TESTING
